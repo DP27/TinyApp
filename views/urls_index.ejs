@@ -9,6 +9,8 @@
   <ul id='url-list'>
     <% for(var i in urls) {%>
     <li><%=  i %> - <%= urls[i]  %></li>
+    <form method="POST" action='<%= i%>/delete'><button type="delete">Delete</button></form>
+
     <%};%>
   </ul>
 <a href="https://www.google.ca/">Link for shortening a new URL</a>
