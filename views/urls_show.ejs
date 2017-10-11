@@ -8,6 +8,18 @@
   <h2>URL and their shortened forms.</h2>
   <ul id='url'>
     <li><%= shortURL %> - <%= longURL  %></li>
+
+    <form action="/urls/<%= shortURL%>" method="POST">
+      <label for="longURL">Enter a new URL:</label>
+      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+      <button type="update">Update</button>
+    </form>
+
+
+
+
+
+
   </ul>
 
 </body>

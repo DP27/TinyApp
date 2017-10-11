@@ -9,7 +9,8 @@
   <ul id='url-list'>
     <% for(var i in urls) {%>
     <li><%=  i %> - <%= urls[i]  %></li>
-    <form method="POST" action='<%= i%>/delete'><button type="delete">Delete</button></form>
+    <form method="POST" action='/urls/<%= i%>'><a href="/urls/<%= i%>">Edit</a>
+    <form method="POST" action='/urls/<%= i%>/delete'><button type="delete">Delete</button></form>
 
     <%};%>
   </ul>
