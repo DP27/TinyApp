@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>TinyApp_SingleURL</title>
-</head>
-<% include ./partials/_header %>
-<body>
-  <h2>URL and their shortened forms.</h2>
-  <ul id='url'>
-    <li><%= shortURL %> - <%= longURL  %></li>
-
-    <form action="/urls/<%= shortURL%>" method="POST">
-      <label for="longURL">Enter a new URL:</label>
-      <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
-      <button type="update">Update</button>
-    </form>
-
-
-
-
-
-
-  </ul>
-
-</body>
+  <head>
+    <title>TinyApp_SingleURL</title>
+  </head>
+  <% include ./partials/_header %>
+  <body>
+    <h2>URL and their shortened forms.</h2>
+    <ul id='url'>
+      <li><%= shortURL %> - <%= longURL  %></li>
+      <br>
+      <form action="/urls/<%= shortURL%>" method="POST">
+        <label for="longURL">Enter a new URL:</label>
+        <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+        <br>
+        <button type="update">Update</button>
+      </form>
+      <br>
+      <a href="http://localhost:8080/urls">Back to URLS Page</a>
+    </ul>
+  </body>
 </html>
 

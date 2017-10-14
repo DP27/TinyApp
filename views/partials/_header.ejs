@@ -3,8 +3,19 @@
 <head>
   <title>TinyApp Header file using partials</title>
 </head>
-<body>
-  <h2>Partials</h2>
-</body>
+  <body>
+    <h2>TinyApp URL Service</h2>
+    <a href="http://localhost:8080/register">Register</a>
+    <br>
+    <% if(user){ %>
+      <br>
+      <label for="username">User-Name:<%= user['email']%></label>
+      <br>
+      <br>
+      <form method="POST" action='/logout'><button type="logout">Logout</button></form>
+      <%}else{%>
+      <a href="http://localhost:8080/login">Login</a>
+          <%}%>
+  </body>
 </html>
 
