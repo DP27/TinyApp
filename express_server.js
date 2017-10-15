@@ -1,17 +1,17 @@
-var express = require('express');
+var express = require('express');//express API
 var app = express();
-var PORT = process.env.PORT || 8080;
-var cookieSession = require('cookie-session');
-const bodyParser = require("body-parser");
+var PORT = process.env.PORT || 8080;//listening port for the server
+var cookieSession = require('cookie-session');//middleware for cookies management
+const bodyParser = require("body-parser");//middleware for body parser
 app.use(cookieSession({
   name: 'session',
   keys: ['user_id']
 }));
 app.use(bodyParser.urlencoded({extended: true}));
-app.set("view engine", "ejs")
-const bcrypt = require('bcrypt');
+app.set("view engine", "ejs")//embedded javascript
+const bcrypt = require('bcrypt');//middleware for encryption
 
-var urlDatabase = {
+var urlDatabase = {//database of users and created urls and their shortened form
   "steve":[{
     "b2xVn2": "http://www.lighthouselabs.ca"
   }],
@@ -20,7 +20,7 @@ var urlDatabase = {
   }],
 };
 
-const users = {
+const users = {//user database 
   "steve": {
     id: "steve",
     email: "user@example.com",
@@ -33,7 +33,7 @@ const users = {
   }
 }
 
-function urlList(urlDatabase){
+function urlList(urlDatabase){//retrieves shorturl and longurl
   var lstOfKeys = Object.keys(urlDatabase);
   var arrOfLinks = [];
   for(var i in lstOfKeys){
@@ -43,7 +43,7 @@ function urlList(urlDatabase){
 }
 
 
-app.get('/',(req,res) => {
+app.get('/',(req,res) => {//get request for root
   res.redirect("/urls");
 });
 
@@ -51,25 +51,25 @@ app.listen(PORT,() => {
   console.log(`Example app listening on port ${PORT}!`);
 });
 
-app.get("/urls.json",(req,res) => {
+app.get("/urls.json",(req,res) => {//for json formatted req
   res.json(urlDatabase);
 });
 
-app.get("/hello", (req, res) => {
+app.get("/hello", (req, res) => {//root 
   res.end("<html><body>Hello <b>World</b></body></html>\n");
 });
 
-app.get('/register',(req,res) => {
+app.get('/register',(req,res) => {//register req
   let templateVars = {user: users[req.session.user_id]};
   res.render("register",templateVars);
 });
 
-app.get("/urls",(req,res) => {
+app.get("/urls",(req,res) => {//urls page req
   let templateVars = {user: users[req.session.user_id],urls: urlDatabase[req.session.user_id]};
   res.render("urls_index",templateVars);
 });
 
-app.get("/urls/new", (req, res) => {
+app.get("/urls/new", (req, res) => {//new url req
   var userCookie = req.session.user_id;
   if(users[userCookie]){
     let templateVars = {user: users[req.session.user_id], urls: urlDatabase[req.session.user_id]}
@@ -80,12 +80,12 @@ app.get("/urls/new", (req, res) => {
   return;
 });
 
-app.get('/login',(req,res) => {
+app.get('/login',(req,res) => {//login page req
   let templateVars = {user: users[req.session.user_id]};
   res.render('login',templateVars);
 })
 
-app.get("/urls/:id", (req, res) => {
+app.get("/urls/:id", (req, res) => {//req for shorturl
   var user = req.session.user_id;
   var longURL = '';
   if(user){
@@ -100,7 +100,7 @@ app.get("/urls/:id", (req, res) => {
   }else{res.end("Please Login.");}
 });
 
-app.post('/register',(req,res) => {
+app.post('/register',(req,res) => {//post from client (register req)
   if(req.body.email && req.body.password){
     for(var entry in users){
       if(users[entry]['email'] == String(req.body.email)){
@@ -124,7 +124,7 @@ app.post('/register',(req,res) => {
 
 })
 
-app.post("/urls/:id", (req, res) => {
+app.post("/urls/:id", (req, res) => {//post req from client for update
   let shortURL = req.params.id;
   let userIdentity = req.session.user_id;
     if(users[userIdentity]){
@@ -141,7 +141,7 @@ app.post("/urls/:id", (req, res) => {
 });
 
 
-app.post("/urls", (req, res) => {
+app.post("/urls", (req, res) => {//post req from client for new url
   var randomKey = generateRandomString();
   var newUrl = {}
   var userKey = req.session.user_id;
@@ -151,11 +151,11 @@ app.post("/urls", (req, res) => {
   }else{
     urlDatabase[userKey].push(newUrl);
   }
-  res.redirect(`/urls/${randomKey}`);
+  res.redirect(`/urls/${randomKey}`);//redirecting to the newly created entry in case the user wants to update it
   return;
 });
 
-app.get("/u/:shortURL", (req, res) => {
+app.get("/u/:shortURL", (req, res) => {//mapping shorturl to longurl(shorturl redirecting to the longurl)
   let userId = req.session.user_id;
   let arr = urlDatabase[userId];
   var getUrl = [getUrl,urlList(urlDatabase)];
@@ -173,7 +173,7 @@ app.get("/u/:shortURL", (req, res) => {
   }
 });
 
-app.post("/urls/:id/delete",(req,res) => {
+app.post("/urls/:id/delete",(req,res) => {//client req for deleting a url
   let varToDelete = req.params.id;
   let userIdentity = req.session.user_id;
   if(users[userIdentity]){
@@ -187,7 +187,7 @@ app.post("/urls/:id/delete",(req,res) => {
   }
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", (req, res) => {//login req from client
   let givenEmail = req.body.email;
   let givenPassword = req.body.password;
   for(var i in users){
@@ -211,7 +211,7 @@ app.post("/logout", (req, res) => {
 });
 
 
-function generateRandomString() {
+function generateRandomString() {//random string generator
   var strArray = [];
   var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
   var number = '0123456789'.split('');
